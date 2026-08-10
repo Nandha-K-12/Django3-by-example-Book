@@ -1,0 +1,72 @@
+/* Clean, modern blog styles */
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#2563eb;
+  --radius:12px;
+  --max-width:1100px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+}
+#content{
+  max-width:var(--max-width);
+  margin:40px auto;
+  padding:24px;
+}
+#sidebar{
+  margin-left:0px;
+  margin-right:30px;
+  padding:0 24px 24px;
+  color:var(--muted);
+}
+h1{font-size:2rem;margin:0 0 18px}
+.post-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:0 6px 18px rgba(15,23,42,0.06);
+  margin-bottom:18px;
+  transition:transform .18s ease, box-shadow .18s ease;
+  overflow:hidden;
+}
+
+.posts-grid{
+  display:grid;
+  grid-template-columns:repeat(1,1fr);
+  gap:18px;
+}
+.post-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(15,23,42,0.08)}
+.post-title{margin:0 0 8px;font-size:1.25rem}
+.post-title a{color:var(--accent);text-decoration:none}
+.post-title a:hover{text-decoration:underline}
+.date{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+.post-excerpt{color:#0f172a;white-space:pre-wrap}
+.read-more{display:inline-block;margin-top:12px;color:var(--accent);text-decoration:none;font-weight:600}
+.read-more:hover{text-decoration:underline}
+.pagination{display:flex;justify-content:center;margin-top:24px}
+.pagination .step-links a{display:inline-block;padding:8px 14px;margin:0 6px;background:#fff;border-radius:8px;color:var(--accent);text-decoration:none;box-shadow:0 6px 14px rgba(15,23,42,0.04)}
+.pagination .step-links .current{display:inline-flex;align-items:center;padding:8px 12px;color:var(--muted)}
+.post-detail{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+@media (min-width:900px){
+  body{display:block}
+  #content{float:left;width:68%}
+  #sidebar{float:right;width:28%;margin-top:40px}
+  .posts-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:899px){
+  #content, #sidebar{width:100%;padding:16px}
+}
+
+@media (min-width:600px) and (max-width:899px){
+  .posts-grid{grid-template-columns:repeat(2,1fr)}
+}
