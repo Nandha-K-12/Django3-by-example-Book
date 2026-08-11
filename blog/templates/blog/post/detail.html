@@ -11,6 +11,9 @@
     </a>
 </p>
   </article>
+  <p class="tags">
+    Tags: {% for tag in post.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+</p>
   {% with comments.count as total_comments %}
     <h2>
         {{ total_comments }} comment{{ total_comments|pluralize }}
