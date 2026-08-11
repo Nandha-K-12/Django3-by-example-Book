@@ -56,6 +56,8 @@ h1{font-size:2rem;margin:0 0 18px}
 .pagination{display:flex;justify-content:center;margin-top:24px}
 .pagination .step-links a{display:inline-block;padding:8px 14px;margin:0 6px;background:#fff;border-radius:8px;color:var(--accent);text-decoration:none;box-shadow:0 6px 14px rgba(15,23,42,0.04)}
 .pagination .step-links .current{display:inline-flex;align-items:center;padding:8px 12px;color:var(--muted)}
+/* Ensure page numbers are visible even if other styles interfere */
+.pagination .page-number{color:var(--muted);font-weight:600;font-size:1rem}
 .post-detail{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
 @media (min-width:900px){
   body{display:block}
