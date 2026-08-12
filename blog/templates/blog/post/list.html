@@ -1,41 +1,37 @@
 {% extends "blog/base.html" %}
 {% load blog_tags %}
-{% block title %}
-    My Blog
-{% endblock %}
+
+{% block title %}My Blog{% endblock %}
+
 {% block content %}
-    <h1>My Blog</h1>
-    {% if tag %}
-        <h2>Posts tagged with "{{ tag.name }}"</h2>
-    {% endif %}
-    <div class="posts-grid">
-    {% for post in posts %}
-        <article class="post-card">
-            <header class="post-meta">
-                <h2 class="post-title">
-                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                </h2>
-                <p class="date">Published {{ post.publish|date:"F j, Y" }} by {{ post.author }}</p>
-            </header> 
-            <div class="post-excerpt">
-                {{ post.body|truncatewords:30 }}
-            </div>
-            {% if post.tags.all|length %}
-                <p class="tags">
-                    Tags:
-                    {% for t in post.tags.all %}
-                        <a href="{% url 'blog:post_list_by_tag' t.slug %}">{{ t.name }}</a>{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-            
-            {% endif %}
-          
-            <a class="read-more" href="{{ post.get_absolute_url }}">Read more →</a>
-        </article>
-    {% endfor %}
-    </div>
-      <p>
-    Total posts: {% total_posts %}
-</p>
-    {% include "blog/post/pagination.html" with page=page_obj %}
+
+<h1>My Blog</h1>
+
+{% if tag %}
+<h2>Posts tagged with "{{ tag.name }}"</h2>
+{% endif %}
+
+<div class="posts-grid">
+{% for post in posts %}
+<article class="post-card">
+{% if post.image %}
+<div class="post-card-image-wrap"><img class="post-card-bg" src="{{ post.image.url }}" alt=""></div>
+{% endif %}
+<div class="post-card-content">
+<h2 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+<p class="date">Published {{ post.publish|date:"F j, Y" }} by {{ post.author }}</p>
+<div class="post-excerpt">{{ post.body|truncatewords:40 }}</div>
+{% if post.tags.all|length %}
+<p class="tags">Tags: {% for t in post.tags.all %}<a href="{% url 'blog:post_list_by_tag' t.slug %}">{{ t.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+{% endif %}
+<a class="read-more" href="{{ post.get_absolute_url }}">Read more →</a>
+</div>
+</article>
+{% endfor %}
+</div>
+
+<p>Total posts: {% total_posts %}</p>
+
+{% include "blog/post/pagination.html" with page=page_obj %}
+
 {% endblock %}

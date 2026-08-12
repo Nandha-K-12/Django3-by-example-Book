@@ -34,7 +34,10 @@ class Post(models.Model):
     )
 
     body = models.TextField()
-
+    image = models.ImageField(
+    upload_to='posts/',
+    blank=True,
+    null=True)
     publish = models.DateTimeField(
         default=timezone.now
     )

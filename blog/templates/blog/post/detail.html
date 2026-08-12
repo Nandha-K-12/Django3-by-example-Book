@@ -2,47 +2,42 @@
 {% load blog_tags %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
-  <article class="post-detail">
-    <h1>{{ post.title }}</h1>
-    <p class="date">Published {{ post.publish|date:"F j, Y" }} by {{ post.author }}</p>
-    <div class="post-body">{{ post.body|markdown }}</div>
-    <p>
-    <a href="{% url 'blog:post_share' post.id %}">
-        Share this post
-    </a>
-</p>
-  </article>
-  {% if post.tags.all|length %}
-    <p class="tags">
-      Tags: {% for tag in post.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
-    </p>
-  {% endif %}
-  {% with comments.count as total_comments %}
-    <h2>
-        {{ total_comments }} comment{{ total_comments|pluralize }}
-    </h2>
+<article class="post-detail">
+{% if post.image %}
+<div class="post-detail-image-wrap"><img class="post-detail-bg" src="{{ post.image.url }}" alt=""></div>
+{% endif %}
+<div class="post-detail-content">
+<h1>{{ post.title }}</h1>
+<p class="date">Published {{ post.publish|date:"F j, Y" }} by {{ post.author }}</p>
+<div class="post-body">{{ post.body|markdown }}</div>
+{% if post.tags.all|length %}
+<p class="tags">Tags: {% for tag in post.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+{% endif %}
+<p><a href="{% url 'blog:post_share' post.id %}">Share this post</a></p>
+</div>
+</article>
+
+{% with comments.count as total_comments %}
+<h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
 {% endwith %}
 
 {% for comment in comments %}
-    <div class="comment">
-        <p class="info">
-            Comment {{ forloop.counter }} by {{ comment.name }}
-            {{ comment.created }}
-        </p>
-        {{ comment.body|linebreaks }}
-    </div>
+<div class="comment">
+<p class="info">Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}</p>
+{{ comment.body|linebreaks }}
+</div>
 {% empty %}
-    <p>There are no comments yet.</p>
+<p>There are no comments yet.</p>
 {% endfor %}
 
 {% if new_comment %}
-    <h2>Your comment has been added.</h2>
+<h2>Your comment has been added.</h2>
 {% else %}
-    <h2>Add a new comment</h2>
-    <form method="post">
-        {{ comment_form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Add comment"></p>
-    </form>
+<h2>Add a new comment</h2>
+<form method="post">
+{{ comment_form.as_p }}
+{% csrf_token %}
+<p><input type="submit" value="Add comment"></p>
+</form>
 {% endif %}
 {% endblock %}

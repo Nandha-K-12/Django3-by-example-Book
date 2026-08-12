@@ -3,6 +3,8 @@ from . import views
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSitemap
 from .feeds import LatestPostsFeed
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = 'blog'
 sitemaps = {
     'posts': PostSitemap,
@@ -26,3 +28,7 @@ urlpatterns = [
     path('search/', views.post_search, name='post_search'),
     
 ]  
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)
