@@ -51,6 +51,7 @@ INSTALLED_APPS = [
       'django.contrib.sites',
      'django.contrib.sitemaps',
      'taggit',
+     'django.contrib.postgres',
 ]
 SITE_ID = 1
 MIDDLEWARE = [
@@ -87,9 +88,13 @@ WSGI_APPLICATION = 'blogapp.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+   'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blogdb',
+        'USER': 'postgres',
+        'PASSWORD': 'testpress',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

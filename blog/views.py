@@ -2,7 +2,11 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from taggit.models import Tag
-
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchQuery,
+    SearchRank,
+)
 from django.core.paginator import (
     Paginator,
     EmptyPage,
@@ -110,5 +114,37 @@ def post_share(request, post_id):
             'post': post,
             'form': form,
             'sent': sent
+        }
+    )
+def post_search(request):
+    query = None
+    results = []
+
+    if 'query' in request.GET:
+        query = request.GET['query']
+
+        search_vector = (
+            SearchVector('title', weight='A') +
+            SearchVector('body', weight='B')
+        )
+
+        search_query = SearchQuery(query)
+
+        results = (
+            Post.published
+            .annotate(
+                search=search_vector,
+                rank=SearchRank(search_vector, search_query)
+            )
+            .filter(search=search_query)
+            .order_by('-rank')
+        )
+
+    return render(
+        request,
+        'blog/post/search.html',
+        {
+            'query': query,
+            'results': results,
         }
     )
